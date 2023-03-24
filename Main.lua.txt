@@ -1,0 +1,208 @@
+  if not game:IsLoaded() then game.Loaded:Wait() end
+  repeat wait() until game.Players
+  repeat wait() until game.Players.LocalPlayer
+  repeat wait() until game.ReplicatedStorage
+  repeat wait() until game.ReplicatedStorage:FindFirstChild("Remotes");
+  repeat wait() until game.Players.LocalPlayer:FindFirstChild("PlayerGui");
+  repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("Main");
+
+ local LocalPlayer = game:GetService("Players").LocalPlayer
+local VirtualUser = game:GetService('VirtualUser')
+repeat wait() until game:IsLoaded()
+function loadcheck()
+   if isfile("FujiSave__"..game.Players.LocalPlayer.Name..".json") then
+       else
+           writefile("FujiSave__"..game.Players.LocalPlayer.Name..".json",game:GetService("HttpService"):JSONEncode(_G.Config))
+       return
+   end
+end
+pcall(function()
+  _G.Config = {
+  ["AutoFarm"] = false,
+  ["1-Click KAITUN"] = false, -- for series 1-Click
+  }
+  end)
+
+function LoadSetting()
+   if isfile("FujiSave_"..game.Players.LocalPlayer.Name..".json") then
+       vb = game:GetService("HttpService"):JSONDecode(readfile("FujiSave_"..game.Players.LocalPlayer.Name..".json"))
+       _G.Config = vb
+   else
+       loadcheck()
+   end
+end
+function SaveSetting()
+   if isfile("FujiSave__"..game.Players.LocalPlayer.Name..".json") then
+       writefile("FujiSave__"..game.Players.LocalPlayer.Name..".json",game:GetService("HttpService"):JSONEncode(_G.Config))
+   else
+       loadcheck()
+   end
+end
+
+loadcheck()
+LoadSetting()
+
+
+
+
+
+
+
+local X = "IsA"
+print(X)
+--BoostFps
+if BoostFpsWindowsActivate then
+
+	local WindowFocusReleasedFunction = function()
+
+		RunService:Set3dRenderingEnabled(false)
+		setfpscap(60)
+		return
+	end
+
+	local WindowFocusedFunction = function()
+		RunService:Set3dRenderingEnabled(true)
+		setfpscap(150)
+		return
+	end
+
+	local Fpsrunner = function()
+		UserInputService.WindowFocusReleased:Connect(WindowFocusReleasedFunction)
+		UserInputService.WindowFocused:Connect(WindowFocusedFunction)
+		return
+	end
+	Fpsrunner()
+end
+--Select Team
+_G.SelectTeam = 'Pirates'
+spawn(function ()
+    while true do wait(.1)
+        if game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Visible == true then
+            pcall(function()
+                for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container:GetChildren()) do
+                    if _G.SelectTeam == 'Pirates' then
+                        if v.Name == "Pirates" then 
+                             for i1,v1 in pairs(v.Frame.ViewportFrame:GetChildren()) do
+                                if v1:IsA("TextButton") then
+                                v1.Position = UDim2.new(0, -800 ,0, -700)
+                                v1.Size = UDim2.new(5000, 5000, 5000, 5000)
+                                v1.BackgroundTransparency = 1
+                                wait(.1)
+                                ViSendMouseButtonEvent:SendMouseButtonEvent(795, 595, 0, true, game, 1)
+                                ViSendMouseButtonEvent:SendMouseButtonEvent(795, 595, 0, false, game, 1)
+                            end
+                        end
+                        elseif v.Name == "Marines" then
+                            v:Destroy()
+                        end
+                    elseif _G.SelectTeam == 'Marines' then
+                        if v.Name == "Marines" then 
+                         for i1,v1 in pairs(v.Frame.ViewportFrame:GetChildren()) do
+                            if v1:IsA("TextButton") then
+                                v1.Position = UDim2.new(0, -800 ,0, -700)
+                                v1.Size = UDim2.new(5000, 5000, 5000, 5000)
+                                v1.BackgroundTransparency = 1
+                                wait(.1)
+                                ViSendMouseButtonEvent:SendMouseButtonEvent(795, 595, 0, true, game, 1)
+                                ViSendMouseButtonEvent:SendMouseButtonEvent(795, 595, 0, false, game, 1)
+                            end
+                        end
+                        elseif v.Name == "Pirates" then
+                            v:Destroy()
+                        end
+                    end
+                end
+            end)
+        end
+        wait()
+    end
+end)
+local plr = game.Players.LocalPlayer
+function RobloxNotify(Ti,tab,icon,sec)
+
+      game.StarterGui:SetCore("SendNotification", {
+
+      Title = Ti,
+      Text = tab,
+      Icon = icon,
+      Duration = sec,
+      })
+  end 
+  
+  function bloxnot(text)
+      require(game.ReplicatedStorage.Notification).new(text):Display()
+  end
+    gamelist = {
+      2753915549,
+      4442272183,
+      7449423635
+  }
+  
+  spawn(function()
+      if table.find(gamelist,game.PlaceId) then
+          RobloxNotify("XTX HUB","Checked",'',5) 
+      else
+          RobloxNotify("XTX HUB","you Execute wrong map",'',4) 
+          task.wait(4)
+          game.Players.localPlayer:Kick('Support Only in BloxFruit')
+      end
+  end)
+  --AutoFarm
+    function two(gotoCFrame) 
+        pcall(function()
+            game.Players.LocalPlayer.Character.Humanoid.Sit = false
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+        end)
+        if (game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - gotoCFrame.Position).Magnitude <= 200 then
+            pcall(function() 
+                tweenz:Cancel()
+            end)
+            game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.CFrame = gotoCFrame
+        else
+            local tween_s = game:service"TweenService"
+            local info = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - gotoCFrame.Position).Magnitude/325, Enum.EasingStyle.Linear)
+             tween, err = pcall(function()
+                tweenz = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = gotoCFrame})
+                tweenz:Play()
+            end)
+            if not tween then return err end
+        end
+        function _TweenCanCle()
+            tweenz:Cancel()
+        end
+    end
+
+      
+        
+       
+function bypassTP(x)
+  spawn(function()
+    while task.wait(.1) do
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = x 
+    if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame == x  then
+       game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+      end
+    end
+  end)
+end
+
+
+--ui library
+local HOLF = loadstring(game:HttpGet("https://snowservice.pongsakornpatta.repl.co/library/gk2a3g9sd0vk213rmdslf13adsf.lua"))()
+
+local window = HOLF:window()
+f = game:GetService("CoreGui").RobloxGui.Modules.UiFuji:GetDescendants()
+    for b,a in pairs(f) do
+    if a.Name=="Logo" then
+    a.Image = "http://www.roblox.com/asset/?id=11367522618";
+    end;
+    end;
+local Main = window:CreateTab("Main")
+local Status = window:CreateTab("Status")
+local Teleport = Main:CreatePage("Teleport")
+local Main2 = Main:CreatePage("Main2")
+
+Main:Label("AUTOFARM")
+Main:Toggle("AutoFarm",false,function(value)
+  Autofarm = value
+end)
