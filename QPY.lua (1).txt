@@ -1,3 +1,4 @@
+_G.FARMPLAYERS = true
 function two(gotoCFrame) 
       pcall(function()
           game.Players.LocalPlayer.Character.Humanoid.Sit = false
