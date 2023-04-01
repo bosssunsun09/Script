@@ -1,0 +1,53 @@
+function two(gotoCFrame) 
+      pcall(function()
+          game.Players.LocalPlayer.Character.Humanoid.Sit = false
+          game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+      end)
+      if (game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - gotoCFrame.Position).Magnitude <= 200 then
+          pcall(function() 
+              tweenz:Cancel()
+          end)
+          game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.CFrame = gotoCFrame
+      else
+          local tween_s = game:service"TweenService"
+          local info = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - gotoCFrame.Position).Magnitude/325, Enum.EasingStyle.Linear)
+           tween, err = pcall(function()
+              tweenz = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = gotoCFrame})
+              tweenz:Play()
+          end)
+          if not tween then return err end
+      end
+      function _TweenCanCle()
+          tweenz:Cancel()
+      end
+  end
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PlayerHunter") 
+function BypassTp(XD)
+  spawn(function()
+   while task.wait() do
+     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = XD
+     if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame == XD then
+       game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+     end
+     if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame == XD then
+        game.Players.LocalPlayer.Character.Humanoid.Health = 0
+     end
+   end
+  end)
+end
+spawn(function()
+  if _G.FARMPLAYERS then
+    pcall(function()
+    while task.wait() do
+      for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
+        if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,v.Name) then
+          BypassTp(v.HumanoidRootPart.CFrame)
+          repeat task.wait()
+          two(v.HumanoidRootPart.CFrame * CFrame.new(0,5,0))
+          until _G.FARMPLAYERS == false or v.Humanoid.Health <= 0
+          end
+        end
+      end
+    end)
+  end
+end)
