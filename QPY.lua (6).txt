@@ -55,7 +55,7 @@ spawn(function()
         if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,v.Name) then
           BypassTp(v.HumanoidRootPart.CFrame)
           repeat task.wait()
-          two(v.HumanoidRootPart.CFrame * CFrame.new(1,9,1))
+          two(v.HumanoidRootPart.CFrame * CFrame.new(1,-6,1))
           if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
             local args = {
               [1] = "Buso"
